@@ -1,16 +1,18 @@
-FROM ubuntu22.04
+# Dockerfile Corregido
+
+FROM ubuntu:22.04
 
 # Evitar prompts interactivos
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Instalar dependencias mínimas (librerías necesarias para ejecutar Godot en Linux)
-RUN apt-get update && apt-get install -y 
-    ca-certificates 
-    libstdc++6 
-    libgcc-s1 
-    && rm -rf varlibaptlists
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    libstdc++6 \
+    libgcc-s1 \
+    && rm -rf /var/lib/apt/lists/*
 
-WORKDIR app
+WORKDIR /app
 
 # Copiar el binario y el pack (Ajustado a tus nombres TankServerMUC)
 COPY TankServerMUC.x86_64 .
@@ -23,4 +25,5 @@ RUN chmod +x TankServerMUC.x86_64
 EXPOSE 8080
 
 # Arrancar el servidor Godot con flags de modo headless
-CMD [.TankServerMUC.x86_64, --headless, --main-pack, TankServerMUC.pck]
+# NOTA: Los argumentos deben ir entre comillas dobles.
+CMD ["./TankServerMUC.x86_64", "--headless", "--main-pack", "TankServerMUC.pck"]
